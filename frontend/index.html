@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Yanwit — микроблог с душой сойки</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/dark-theme.css">
+    <link rel="stylesheet" href="/css/mobile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/assets/jay-detailed.svg">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Левое меню -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="/assets/jay-detailed.svg" alt="Yanwit Jay" width="36" height="36">
+                <span>Yanwit</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-page="home">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H5a2 2 0 0 1-2-2z"/>
+                    </svg>
+                    <span>Лента</span>
+                </a>
+                <a href="#" class="nav-item" data-page="search">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <span>Поиск</span>
+                </a>
+                <a href="#" class="nav-item" data-page="profile">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>Профиль</span>
+                </a>
+                <a href="#" class="nav-item" data-page="settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                    <span>Настройки</span>
+                </a>
+            </nav>
+            
+            <button class="logout-btn" id="logout-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                <span>Выйти</span>
+            </button>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content" id="main-content">
+            <!-- Страница входа -->
+            <div id="auth-page" class="auth-page">
+                <div class="auth-container">
+                    <div class="auth-logo">
+                        <img src="/assets/jay-detailed.svg" alt="Yanwit Jay" width="80" height="80">
+                    </div>
+                    <h2>Добро пожаловать</h2>
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="login">Вход</button>
+                        <button class="auth-tab" data-tab="register">Регистрация</button>
+                    </div>
+                    
+                    <form id="login-form" class="auth-form">
+                        <input type="text" id="login-username" placeholder="Имя пользователя" required>
+                        <input type="password" id="login-password" placeholder="Пароль" required>
+                        <button type="submit" class="btn-primary">Войти</button>
+                        <div class="auth-error" id="auth-error"></div>
+                    </form>
+                    
+                    <form id="register-form" class="auth-form" style="display: none;">
+                        <input type="text" id="register-username" placeholder="Имя пользователя" required>
+                        <input type="email" id="register-email" placeholder="Email (необязательно)">
+                        <input type="password" id="register-password" placeholder="Пароль" required>
+                        <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                        <div class="auth-error" id="register-error"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Главная страница (лента) -->
+            <div id="home-page" style="display: none;">
+                <div class="tweet-form-container">
+                    <div class="tweet-avatar-mini" id="user-avatar-mini"></div>
+                    <div class="tweet-form">
+                        <textarea id="tweet-text" class="tweet-input" placeholder="Что происходит?" maxlength="280" rows="3"></textarea>
+                        <div class="tweet-form-footer">
+                            <div class="char-counter" id="char-counter">280</div>
+                            <div class="tweet-actions-form">
+                                <button type="button" class="btn-secondary" id="check-manipulation-btn">🔍 Проверить</button>
+                                <button class="btn-secondary" id="improve-tweet-btn">✨ AI улучшить</button>
+                                <button class="btn-primary" id="post-tweet-btn">🐦 Опубликовать</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="manipulation-warning" class="manipulation-warning" style="display: none;"></div>
+                <div id="alternatives-modal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="modal-close">&times;</span>
+                        <h3>✨ AI предлагает варианты</h3>
+                        <div id="alternatives-list"></div>
+                    </div>
+                </div>
+                
+                <div class="timeline-header">
+                    <h2>Лента</h2>
+                </div>
+                <div id="timeline" class="timeline">
+                    <div class="loading">Загрузка...</div>
+                </div>
+            </div>
+
+            <!-- Страница профиля -->
+            <div id="profile-page" style="display: none;">
+                <div class="profile-header" id="profile-header"></div>
+                <div class="profile-stats" id="profile-stats"></div>
+                <div class="profile-tweets" id="profile-tweets"></div>
+            </div>
+
+            <!-- Страница поиска -->
+            <div id="search-page" style="display: none;">
+                <div class="search-container">
+                    <input type="text" id="search-input" class="search-input" placeholder="Поиск пользователей...">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+            </div>
+
+            <!-- Страница настроек -->
+            <div id="settings-page" style="display: none;">
+                <div class="settings-container">
+                    <h2>Настройки</h2>
+                    <div class="settings-section">
+                        <label class="settings-label">
+                            <span>Тёмная тема</span>
+                            <input type="checkbox" id="dark-theme-toggle" checked>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/timeline.js"></script>
+    <script src="/js/tweet.js"></script>
+    <script src="/js/ai.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

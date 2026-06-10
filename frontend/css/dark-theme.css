@@ -1,0 +1,70 @@
+/* Dark Theme Specific Styles */
+:root {
+    --bg-primary: #000000;
+    --bg-secondary: #080808;
+    --text-primary: #e7e9ea;
+    --text-secondary: #71767b;
+    --border-color: #2f3336;
+    --accent-color: #1da1f2;
+    --accent-hover: #0d8de0;
+    --danger-color: #e0245e;
+    --warning-color: #f5a623;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Тёмная тема (по умолчанию) */
+body.dark-theme {
+    background-color: #000000;
+    color: #e7e9ea;
+}
+
+body.dark-theme .sidebar {
+    border-right-color: #2f3336;
+    background-color: #000000;
+}
+
+body.dark-theme .tweet {
+    border-bottom-color: #2f3336;
+    background-color: #000000;
+}
+
+body.dark-theme .tweet:hover {
+    background-color: #080808;
+}
+
+body.dark-theme .tweet-input {
+    background-color: #000000;
+    color: #e7e9ea;
+}
+
+body.dark-theme .auth-container {
+    background-color: #000000;
+    border-color: #2f3336;
+}
+
+body.dark-theme .modal-content {
+    background-color: #000000;
+    border-color: #2f3336;
+}

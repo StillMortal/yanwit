@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: yanwit-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - yanwit-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: yanwit-redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - yanwit-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: yanwit-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - yanwit-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: yanwit-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - yanwit-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:
+
+networks:
+  yanwit-network:
+    driver: bridge
