@@ -62,21 +62,29 @@
 
 ## 🚀 Быстрый старт
 
-### 1. Клонируйте репозиторий
+### 1. Подготовка окружения (однократно)
+
+```bash
+# Установка Go (если не установлен)
+brew install go
+
+# Установка Python (если не установлен)
+brew install python@3.14
+
+# Проверка
+go version
+python3 --version
+```
+
+### 2. Клонирование и настройка переменных
 
 ```bash
 git clone https://github.com/StillMortal/yanwit.git
 cd yanwit
-```
-
-### 2. Настройте переменные окружения
-
-```bash
 cp .env.example .env
 ```
 
-**Проверьте основные параметры** (обычно значения по умолчанию подходят):
-
+**Отредактируйте** .env **(убедитесь, что параметры верны):**
 ```env
 DB_HOST=localhost
 DB_PORT=5432
@@ -92,7 +100,20 @@ API_PORT=8080
 JWT_SECRET=yanwit-super-secret-key
 ```
 
-### 3. Запустите инфраструктуру (Docker/Podman)
+### 3. Установка зависимостей Go
+```bash
+cd api
+go mod tidy
+cd ..
+```
+
+### 4. Установка зависимостей Python для AI сервисов
+```bash
+pip3 install -r ai-services/alternatives/requirements.txt
+pip3 install -r ai-services/manipulation/requirements.txt
+```
+
+### 5. Запустите инфраструктуру (Docker/Podman)
 
 **Для Podman Desktop (рекомендуется на macOS):**
 
@@ -119,7 +140,16 @@ podman ps
 # Все контейнеры должны быть в статусе Up
 ```
 
-### 4. Запустите AI сервисы (Python)
+### 6. Создание базы данных и миграция (если не создалась автоматически)
+```bash
+# Создать БД
+podman exec -it yanwit-postgres psql -U yanwit_user -d postgres -c "CREATE DATABASE yanwit;" 2>/dev/null || true
+
+# Выполнить миграцию
+podman exec -it yanwit-postgres psql -U yanwit_user -d yanwit -f /docker-entrypoint-initdb.d/001_init.sql
+```
+
+### 7. Запустите AI сервисы (Python)
 
 **В отдельном терминале — Генератор альтернатив:**
 ```bash
@@ -135,9 +165,14 @@ pip install -r requirements.txt
 python3 app.py
 ```
 
-**Ожидаемый вывод:** Uvicorn running on http://0.0.0.0:8002 (или 8003)
+**Проверка AI сервисов:**
+```bash
+curl http://localhost:8002/health
+curl http://localhost:8003/health
+# Оба должны вернуть {"status":"ok","service":"..."}
+```
 
-### 5. Запустите воркер (асинхронная раздача твитов)
+### 8. Запустите воркера (асинхронная раздача твитов)
 
 **В третьем терминале:**
 ```bash
@@ -147,7 +182,7 @@ go run main.go
 
 **Ожидаемый вывод:** Fanout worker started. Waiting for messages...
 
-### 6. Запустите Go API
+### 9. Запустите Go API
 
 **В четвёртом терминале:**
 ```bash
@@ -163,7 +198,7 @@ curl http://localhost:8080/health
 # {"database":"connected","service":"yanwit-api","status":"ok"}
 ```
 
-### 7. Запустите фронтенд
+### 10. Запустите фронтенд
 
 **В пятом терминале:**
 ```bash
@@ -173,7 +208,7 @@ python3 -m http.server 3000
 
 **Ожидаемый вывод:** Serving HTTP on :: port 3000
 
-### 8. Откройте приложение в браузере
+### 11. Откройте приложение в браузере
 
 ```text
 http://localhost:3000
