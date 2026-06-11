@@ -128,7 +128,7 @@ pip install -r requirements.txt
 python3 app.py
 ```
 
-**В другом терминале — Детектор манипуляций:**
+**Во втором терминале — Детектор манипуляций:**
 ```bash
 cd ai-services/manipulation
 pip install -r requirements.txt
@@ -164,6 +164,8 @@ curl http://localhost:8080/health
 ```
 
 ### 7. Запустите фронтенд
+
+**В пятом терминале:**
 ```bash
 cd frontend
 python3 -m http.server 3000
