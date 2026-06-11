@@ -67,3 +67,7 @@
 ```bash
 git clone https://github.com/StillMortal/yanwit.git
 cd yanwit
+
+### 2. Настройте переменные окружения
+
+cp .env.example .env
